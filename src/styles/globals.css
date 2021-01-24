@@ -14,3 +14,26 @@ a {
 * {
   box-sizing: border-box;
 }
+
+button {
+  background-color: #000;
+  color: #fff;
+  width: 200px;
+  padding: 10px 20px;
+  border: #000 1.5px solid;
+  font-weight: 550;
+  letter-spacing: 0.5em;
+  transition: all 0.4s;
+  outline: none;
+}
+
+button:hover {
+  background-color: #fff;
+  color: #000;
+  cursor: pointer;
+  transition: all 0.4s;
+}
+
+img {
+  border-radius: 9999px;
+}

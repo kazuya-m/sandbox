@@ -1,55 +1,61 @@
-import Head from 'next/head'
+import { useEffect, FC, useState, useContext } from 'react'
 import Link from 'next/link'
-import Layout, { siteTitle } from '../components/layout'
-import utilStyles from '../styles/utils.module.css'
-import { getSortedPostsData} from '../lib/posts'
-import Date from '../components/date'
+import { useRouter } from 'next/router'
+import { auth } from '../../firebase/index'
+import { useAuthContext } from '../auth/authProvider'
 
-export async function getStaticProps() {
-  const allPostsData = getSortedPostsData()
-  return {
-    props: {
-      allPostsData
+const Home = (props) => {
+  const [currentUserImg, setCurrentUserImg] = useState("")
+  const router = useRouter()
+  const userName = useAuthContext();
+  const userPhoto = useAuthContext();
+
+  useEffect(() => {
+    var user = auth.currentUser;
+
+    if (user != null) {
+      user.providerData.forEach(function (profile) {
+        console.log("Sign-in provider: " + profile.providerId);
+        console.log("  Provider-specific UID: " + profile.uid);
+        console.log("  Name: " + profile.displayName);
+        console.log("  Email: " + profile.email);
+        console.log("  Photo URL: " + profile.photoURL);
+        setCurrentUserImg(profile.photoURL);
+      });
+    }
+  }, [userName])
+
+  const logOut = async () => {
+    try {
+      await auth.signOut()
+      router.push('/')
+      
+    } catch (error) {
+      alert(error.message)
     }
   }
-}
 
-export default function Home({ allPostsData }) {
+  let handleButton;
+  if (currentUserImg !== "") {
+    handleButton = (
+      <button onClick={logOut}>Logout</button>
+    )
+  } else {
+    handleButton = (
+      <Link href='/login'>
+        <button>LogIn</button>
+      </Link>
+    )
+  }
+
   return (
-    <Layout home>
-      <Head>
-        <title>{siteTitle}</title>
-      </Head>
-      <section className={utilStyles.headingMd}>
-        <p>Hello Next.js!</p>
-        <p>
-          (This is a sample website - you’ll be building a site like this on{' '}
-          <a href="https://nextjs.org/learn">our Next.js tutorial</a>.)
-        </p>
-      </section>
-      <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
-        <h2 className={utilStyles.headingLg}>Blog</h2>
-        <ul className={utilStyles.list}>
-          {allPostsData.map(({ id, date, title }) => (
-            <li className={utilStyles.listItem} key={id}>
-            <Link href={`/posts/${id}`}>
-              <a>{title}</a>
-            </Link>
-            <br />
-            <small className={utilStyles.lightText}>
-              <Date dateString={date} />
-            </small>
-          </li>
-          ))}
-        </ul>
-      </section>
-      <div id="01">
-            test
+    <div>
+      <h1>You are signed in as <img src={currentUserImg} alt="prof" />{userName}</h1>
+      <div>
+        {handleButton}
       </div>
-      <section id="02">
-            test
-      </section>
-
-    </Layout>
+    </div>
   )
 }
+
+export default Home
