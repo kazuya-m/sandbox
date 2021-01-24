@@ -23,10 +23,9 @@ const Login = () => {
 
   const twitterLogIn = async (e) => {
     e.preventDefault()
-    await auth
+    auth
     .signInWithRedirect(providerTwitter)
     .then((result) => {
-      console.log(result)
       console.log(`logged in`);
       router.push('/');
     })
