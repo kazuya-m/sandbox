@@ -7,18 +7,35 @@ import { useAuthNameContext, useAuthPhotoContext } from '../auth/authProvider'
 const Home = (props) => {
   const userName = useAuthNameContext();
   const photoURL = useAuthPhotoContext();
-  
-  const logOut = () => {
-    auth.signOut(providerTwitter)
-    .catch ((error) => {
+  const router = useRouter();
+
+  const logOut = (e) => {
+    auth.signOut().then(() => {
+      alert(`signed out`)
+      router.reload();
+    }).catch ((error) => {
       alert(error.message)
     })
   }
 
+  // auth.getRedirectResult().then((result) => {
+  //   alert('log in')
+  //   console.log(result);
+  //   router.back();
+  // }).catch((error) => {
+  //   const errorCode = error.code;
+  //   const errorMessage = error.message;
+  //   alert(`error! code:${errorCode},---msg:${errorMessage}`)
+  //   console.log(`error`)
+  // })
+
+
   let handleButton;
-  if (userName !== undefined) {
+  if (userName !== "... oops! not signed in") {
     handleButton = (
-      <button onClick={()=>{logOut()}}>Logout</button>
+      <>
+        <button onClick={(e)=>{logOut(e)}}>Logout</button>
+      </>
     )
   } else {
     handleButton = (

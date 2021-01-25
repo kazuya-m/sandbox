@@ -1,3 +1,4 @@
+import { Router } from 'next/router';
 import { createContext, useContext, useEffect, useState } from 'react'
 import { auth } from '../../firebase/index'
 
@@ -15,7 +16,6 @@ export const AuthProvider = ({ children }) => {
       if (user) {
         setCurrentUserName(user.displayName)
         setCurrentUserPhotoUrl(user.photoURL)
-        console.log(user.emailVerified)
       }
     })
   }, [])
