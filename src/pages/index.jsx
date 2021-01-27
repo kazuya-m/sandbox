@@ -1,12 +1,19 @@
 import { useEffect, FC, useState, useContext } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { auth, providerTwitter } from '../../firebase/index'
-import { useAuthNameContext, useAuthPhotoContext } from '../auth/authProvider'
+import { auth } from '../../firebase/index'
+import { useAuthNameContext, useAuthPhotoContext, useAuthUserContext } from '../auth/authProvider'
+
+
+
+// export const getServerSideProps = async () => {
+//   return
+// }
 
 const Home = (props) => {
   const userName = useAuthNameContext();
   const photoURL = useAuthPhotoContext();
+  const userData = useAuthUserContext();
   const router = useRouter();
 
   const logOut = (e) => {
@@ -17,17 +24,6 @@ const Home = (props) => {
       alert(error.message)
     })
   }
-
-  // auth.getRedirectResult().then((result) => {
-  //   alert('log in')
-  //   console.log(result);
-  //   router.back();
-  // }).catch((error) => {
-  //   const errorCode = error.code;
-  //   const errorMessage = error.message;
-  //   alert(`error! code:${errorCode},---msg:${errorMessage}`)
-  //   console.log(`error`)
-  // })
 
 
   let handleButton;
@@ -44,12 +40,14 @@ const Home = (props) => {
       </Link>
     )
   }
-
   return (
     <div>
       <h1>You are signed in as <img src={photoURL} alt="prof" />{userName}</h1>
       <div>
         {handleButton}
+      </div>
+      <div>
+        <pre>{}</pre>
       </div>
     </div>
   )

@@ -10,20 +10,28 @@ const Login = () => {
   const [currentSecret, setCurrentSecret] = useState(null);
   
 
-  const handleClickLogIn = async (e) => {
-    auth.signInWithRedirect(providerTwitter).then(() => {
-      auth.getRedirectResult().then((result) => {
+  useEffect(() => {
+    auth.getRedirectResult().then((result) => {
         if(result.credential) {
+          console.log(result.credential)
+          const credential = result.credential;
           const token = credential.accessToken;
           const secret = credential.secret;
-          setCurrentToken(token);
-          setCurrentSecret(secret)
+          console.log(token)
+          console.log(secret)
+          setCurrentToken(credential.accessToken);
+          setCurrentSecret(secret);
+          console.log(currentToken)
+          console.log(currentSecret)
         } else {
           alert('nothing to show')
         }
-        // router.back();
       })
-    })
+  },[])
+
+
+  const handleClickLogIn = async (e) => {
+    await auth.signInWithRedirect(providerTwitter);
   }
 
   return (
