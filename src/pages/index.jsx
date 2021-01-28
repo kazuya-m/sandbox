@@ -2,7 +2,7 @@ import { useEffect, FC, useState, useContext } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { auth } from '../../firebase/index'
-import { useAuthNameContext, useAuthPhotoContext, useAuthUserContext } from '../auth/authProvider'
+import { useAuthNameContext, useAuthPhotoContext, useAuthUserContext, useAuthCredentialContext } from '../auth/authProvider'
 
 
 
@@ -14,6 +14,7 @@ const Home = (props) => {
   const userName = useAuthNameContext();
   const photoURL = useAuthPhotoContext();
   const userData = useAuthUserContext();
+  const credential = useAuthCredentialContext();
   const router = useRouter();
 
   const logOut = (e) => {
@@ -47,7 +48,7 @@ const Home = (props) => {
         {handleButton}
       </div>
       <div>
-        <pre>{}</pre>
+        <p>{credential.accessToken}</p>
       </div>
     </div>
   )

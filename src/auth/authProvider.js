@@ -5,14 +5,17 @@ import { auth } from '../../firebase/index'
 export const AuthNameContext = createContext(undefined)
 export const AuthPhotoContext = createContext(undefined)
 export const AuthUserContext = createContext(undefined)
+export const AuthCredential = createContext(undefined)
 export const useAuthNameContext = () => useContext(AuthNameContext);
 export const useAuthPhotoContext = () => useContext(AuthPhotoContext);
 export const useAuthUserContext = () => useContext(AuthUserContext);
+export const useAuthCredentialContext = () => useContext(AuthCredential);
 
 export const AuthProvider = ({ children }) => {
   const [currentUserName, setCurrentUserName] = useState("... oops! not signed in")
   const [currentUserPhotoUrl, setCurrentUserPhotoUrl] = useState(undefined)
   const [currentUserData, setCurrentUserData] = useState(undefined)
+  const [credential, setCredential] = useState({})
   const router = useRouter()
 
   useEffect(() => {
@@ -24,12 +27,34 @@ export const AuthProvider = ({ children }) => {
       }
     })
   }, [])
+
+  useEffect(() => {
+    auth.getRedirectResult().then((result) => {
+        if(result.credential) {
+          const credential = result.credential;
+          setCredential({credential});
+          // const token = credential.accessToken;
+          // const secret = credential.secret;
+          // console.log(token)
+          // console.log(secret)
+          // setCurrentToken(credential.accessToken);
+          // setCurrentSecret(secret);
+          // console.log(currentToken)
+          // console.log(currentSecret)
+        } else {
+          alert('nothing to show')
+        }
+      })
+  },[])
+
   
   return (
     <AuthNameContext.Provider value={ currentUserName }>
       <AuthPhotoContext.Provider value= { currentUserPhotoUrl }>
         <AuthUserContext.Provider value= { currentUserData }>
-          {children}
+          <AuthCredential.Provider value= { credential  }>
+            {children}
+          </AuthCredential.Provider>
         </AuthUserContext.Provider>
       </AuthPhotoContext.Provider>
     </AuthNameContext.Provider>
