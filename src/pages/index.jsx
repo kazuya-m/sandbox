@@ -17,7 +17,7 @@ const Home = (props) => {
   const credential = useAuthCredentialContext();
   const router = useRouter();
 
-  const logOut = (e) => {
+  const signOut = () => {
     auth.signOut().then(() => {
       alert(`signed out`)
       router.reload();
@@ -31,7 +31,7 @@ const Home = (props) => {
   if (userName !== "... oops! not signed in") {
     handleButton = (
       <>
-        <button onClick={(e)=>{logOut(e)}}>Logout</button>
+        <button onClick={()=>{signOut()}}>Logout</button>
       </>
     )
   } else {
@@ -49,6 +49,7 @@ const Home = (props) => {
       </div>
       <div>
         <p>{credential.accessToken}</p>
+        <pre>{userData}</pre>
       </div>
     </div>
   )

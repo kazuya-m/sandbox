@@ -14,7 +14,7 @@ export const useAuthCredentialContext = () => useContext(AuthCredential);
 export const AuthProvider = ({ children }) => {
   const [currentUserName, setCurrentUserName] = useState("... oops! not signed in")
   const [currentUserPhotoUrl, setCurrentUserPhotoUrl] = useState(undefined)
-  const [currentUserData, setCurrentUserData] = useState(undefined)
+  const [currentUserData, setCurrentUserData] = useState()
   const [credential, setCredential] = useState({})
   const router = useRouter()
 
@@ -52,7 +52,7 @@ export const AuthProvider = ({ children }) => {
     <AuthNameContext.Provider value={ currentUserName }>
       <AuthPhotoContext.Provider value= { currentUserPhotoUrl }>
         <AuthUserContext.Provider value= { currentUserData }>
-          <AuthCredential.Provider value= { credential  }>
+          <AuthCredential.Provider value= { credential }>
             {children}
           </AuthCredential.Provider>
         </AuthUserContext.Provider>
