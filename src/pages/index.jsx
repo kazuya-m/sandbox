@@ -2,19 +2,11 @@ import { useEffect, FC, useState, useContext } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { auth } from '../../firebase/index'
-import { useAuthNameContext, useAuthPhotoContext, useAuthUserContext, useAuthCredentialContext } from '../auth/authProvider'
-
-
-
-// export const getServerSideProps = async () => {
-//   return
-// }
+import { useAuthNameContext, useAuthPhotoContext } from '../auth/authProvider'
 
 const Home = (props) => {
   const userName = useAuthNameContext();
   const photoURL = useAuthPhotoContext();
-  const userData = useAuthUserContext();
-  const credential = useAuthCredentialContext();
   const router = useRouter();
 
   const signOut = () => {
@@ -46,10 +38,6 @@ const Home = (props) => {
       <h1>You are signed in as <img src={photoURL} alt="prof" />{userName}</h1>
       <div>
         {handleButton}
-      </div>
-      <div>
-        <p>{credential.accessToken}</p>
-        <pre>{userData}</pre>
       </div>
     </div>
   )
