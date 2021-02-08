@@ -37,8 +37,6 @@ export const AuthProvider = ({ children }) => {
           console.log(secret)
           setCurrentToken(token);
           setCurrentSecret(secret);
-          console.log(currentToken)
-          console.log(currentSecret)
         } else {
           alert('nothing to show')
         }
