@@ -12,6 +12,7 @@ const Login = () => {
   const handleClickLogIn = async (e) => {
     try {
       await auth.signInWithRedirect(providerTwitter);
+      
     } catch(e) {
       alert(e.message);
     }

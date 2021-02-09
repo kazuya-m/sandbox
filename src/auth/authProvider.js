@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { createContext, useContext, useEffect, useState } from 'react'
-import { auth } from '../../firebase/index'
+import { auth, db, FirebaseTimestamp } from '../../firebase/index'
 
 export const AuthNameContext = createContext(undefined)
 export const AuthPhotoContext = createContext(undefined)
@@ -21,6 +21,24 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
       if (user) {
+        const uid = user.uid
+        const signedInAt = FirebaseTimestamp.now();
+
+        const userData = {
+          uid: uid,
+          lastSignedIn: signedInAt,
+          displayName: user.displayName,
+          photoURL: user.photoURL
+        }
+
+        db.collection('users').doc('uid').update(userData)
+          .then(() => {
+            console.log('successfully updated')
+          }).catch((e) => {
+          console.log(`update error ${e}`);
+        });
+        
+        console.log(userData)
         setCurrentUserName(user.displayName)
         setCurrentUserPhotoUrl(user.photoURL)
       }
