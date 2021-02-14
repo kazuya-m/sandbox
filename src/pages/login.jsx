@@ -23,7 +23,7 @@ const Login = () => {
     <div className="wrapper">
       <button onClick={handleClickLogIn}>Twitter In</button>
       <Link href="/signup">
-        <a className="auth-link">signup</a>
+        <a className="auth-link">SignUp</a>
       </Link>
       <h2>{currentToken}</h2>
       <h2>{currentSecret}</h2>
