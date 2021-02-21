@@ -1,0 +1,48 @@
+users: {
+  documentID: userId === auth.uid,
+  name: String,
+  photoURL: String,
+  accountName: String, # @~~のアカウント名
+  isAuthor: boolean, # 書き手かどうか
+  posts: postsId?, # 投稿記事一覧
+  comments: commentsId?, # 投稿コメント一覧
+  LikedPosts: postsId?,
+  createdAt: Timestamp,
+  updatedAt: Timestamp,
+  },
+
+posts: {
+  documentID: auto,
+  postId: Int,
+  title: String,
+  author: userId, #Reference
+  markdownRef: String, # Storageのパス
+# LikeCount: Int,
+  CommentsCount: Int,
+  Category: String,
+  Tag: Array,
+  v
+  createdAt: Timestamp,
+  updatedAt: Timestamp,
+},
+
+comments: {
+  documentID: auto,
+  id: Int,
+  author: userId, #Reference
+  body: String,
+  commentTo: postId, #Reference
+  replyTo: commentId, #Reference
+  createdAt: Timestamp,
+  updatedAt: Timestamp,
+},
+
+categories: {
+  documentID: auto,
+  name: String 
+}
+
+tags: {
+  documentID: auto,
+  name: String,
+}

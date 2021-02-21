@@ -1,31 +1,31 @@
-import { FC, useEffect, useState } from 'react'
-import Router, { useRouter } from 'next/router'
-import Link from 'next/link'
-import { providerTwitter } from '../../firebase/index'
+import { FC, useEffect, useState } from 'react';
+import Router, { useRouter } from 'next/router';
+import Link from 'next/link';
+import { providerTwitter } from '../../firebase/index';
 
-import { auth } from '../../firebase/index'
-import { AuthContext } from '../auth/authProvider'
+import { auth } from '../../firebase/index';
+import { AuthContext } from '../auth/authProvider';
 
 const SignUp = () => {
-  const router = useRouter()
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const router = useRouter();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
-      user && router.push('/')
-    })
-  }, [])
+      user && router.push('/');
+    });
+  }, []);
 
   const createUser = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      await auth.signInWithRedirect(providerTwitter)
-      router.push('/login')
+      await auth.signInWithRedirect(providerTwitter);
+      router.push('/login');
     } catch (err) {
-      alert(err.message)
+      alert(err.message);
     }
-  }
+  };
 
   return (
     <div className="wrapper">
@@ -60,7 +60,7 @@ const SignUp = () => {
         <a className="auth-link">Login</a>
       </Link>
     </div>
-  )
-}
+  );
+};
 
-export default SignUp
+export default SignUp;
