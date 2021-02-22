@@ -1,23 +1,22 @@
-import React, { useEffect, useState, FC } from 'react'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
-import { auth } from '../../firebase/index'
-import { providerTwitter } from '../../firebase/index'
+import React, { useEffect, useState, FC } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { auth } from '../../firebase/index';
+import { providerTwitter } from '../../firebase/index';
 
 const Login = () => {
-  const router = useRouter()
+  const router = useRouter();
   const [currentToken, setCurrentToken] = useState(null);
   const [currentSecret, setCurrentSecret] = useState(null);
 
   const handleClickLogIn = async (e) => {
     try {
       await auth.signInWithRedirect(providerTwitter);
-      
-    } catch(e) {
+    } catch (e) {
       alert(e.message);
     }
     router.back();
-  }
+  };
 
   return (
     <div className="wrapper">
@@ -28,7 +27,7 @@ const Login = () => {
       <h2>{currentToken}</h2>
       <h2>{currentSecret}</h2>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;
