@@ -21,7 +21,7 @@ const Login = () => {
   return (
     <div className="wrapper">
       <button onClick={handleClickLogIn}>Twitter In</button>
-      <Link href="/signup">
+      <Link href="/signup(">
         <a className="auth-link">SignUp</a>
       </Link>
       <h2>{currentToken}</h2>
